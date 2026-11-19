@@ -21,6 +21,15 @@ ROOT = Path(__file__).resolve().parents[1]
 SCHEMA_PATH = ROOT / "index" / "schema.json"
 
 
+# Identifiers a review can act on. LicenseRef- variants stay legal because
+# Daml components in the wild ship custom terms.
+SPDX = frozenset({
+    "0BSD", "Apache-2.0", "BSD-2-Clause", "BSD-3-Clause", "BSL-1.0", "CC0-1.0",
+    "CC-BY-4.0", "EPL-2.0", "GPL-2.0-only", "GPL-3.0-only", "ISC",
+    "LGPL-2.1-only", "LGPL-3.0-only", "MIT", "MPL-2.0", "Unlicense",
+})
+
+
 def collect(targets: list[str]) -> list[Path]:
     """Expand file and directory arguments into a sorted list of JSON files."""
     files: list[Path] = []
@@ -66,6 +75,15 @@ def main(argv: list[str]) -> int:
         for error in errors:
             field = ".".join(str(p) for p in error.path) or error.validator_value
             problems.append(f"{path.name}: {field}: {error.message}")
+
+        license_id = entry.get("license")
+        if isinstance(license_id, str) and not (
+            license_id.rstrip("+") in SPDX or license_id.startswith("LicenseRef-")
+        ):
+            problems.append(
+                f"{path.name}: license: '{license_id}' is not an SPDX identifier "
+                f"(use MIT, Apache-2.0, or LicenseRef-<name>)"
+            )
 
         name = entry.get("name")
         if isinstance(name, str):

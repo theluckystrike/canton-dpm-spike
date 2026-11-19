@@ -38,7 +38,7 @@
     },
     "entry_point": {
       "type": "string",
-      "pattern": "^(oci://[a-z0-9.-]+(:\\d+)?/[a-z0-9._/-]+:[A-Za-z0-9._-]+|(\\.[/])?[A-Za-z0-9._/-]+)$",
+      "pattern": "^(oci://[a-z0-9.-]+(:\\d+)?/[a-z0-9._/-]+(:[A-Za-z0-9._-]+|@sha256:[a-f0-9]{64})|(\\./|components/|index/)[A-Za-z0-9._/-]+)$",
       "description": "OCI reference with an explicit tag, or a repository-relative path."
     },
     "integrity": {

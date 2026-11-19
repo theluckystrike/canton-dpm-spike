@@ -35,6 +35,26 @@ def test_golden_entry_is_valid():
     assert "OK" in out
 
 
+def test_unknown_spdx_license_is_rejected(tmp_path):
+    path = write_entry(tmp_path, "bad-license", license="NOT-A-SPDX")
+    code, out = run_validator(path)
+    assert code == 1, out
+    assert "spdx" in out.lower()
+
+
+def test_untagged_oci_reference_is_rejected(tmp_path):
+    path = write_entry(tmp_path, "untagged", entry_point="ghcr.io/x/y")
+    code, out = run_validator(path)
+    assert code == 1, out
+    assert "entry_point" in out
+
+
+def test_local_path_entry_is_accepted(tmp_path):
+    path = write_entry(tmp_path, "local", entry_point="./components/tokenized-deposit/")
+    code, out = run_validator(path)
+    assert code == 0, out
+
+
 def test_missing_license_is_rejected(tmp_path):
     path = write_entry(tmp_path, "no-license")
     entry = json.loads(path.read_text())
