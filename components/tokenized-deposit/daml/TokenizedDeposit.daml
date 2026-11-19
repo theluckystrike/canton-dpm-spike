@@ -1,0 +1,27 @@
+module TokenizedDeposit where
+
+-- Minimal deposit holding for the DPM tokenized deposit component.
+-- One template, one choice, no external packages. Compile with `daml build`
+-- from this directory (Daml SDK 3.4.0 or newer).
+
+type Amount = Decimal
+
+template DepositHolding
+  with
+    issuer : Party
+    owner : Party
+    instrument : Text
+    amount : Amount
+  where
+    signatory issuer, owner
+    ensure amount >= 0.0
+
+    choice Transfer : ContractId DepositHolding
+      with
+        newOwner : Party
+        quantity : Amount
+      controller owner
+      do
+        assertMsg "quantity must be positive" (quantity > 0.0)
+        assertMsg "quantity exceeds holding" (quantity <= amount)
+        create this with owner = newOwner, amount = quantity

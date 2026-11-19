@@ -1,0 +1,30 @@
+{
+  "name": "tokenized-deposit-template",
+  "display_name": "Tokenized Deposit Template",
+  "version": "0.1.0",
+  "component_kind": "template-plugin",
+  "daml_sdk_version": "3.4.0",
+  "entry_point": "./components/tokenized-deposit/",
+  "integrity": {
+    "sha256": "78392b9509d12d75b0db1a3538f3a4b04f035ac3c453beea39b12f0bf842c967"
+  },
+  "license": "Apache-2.0",
+  "capabilities": [
+    "create deposit holdings against a Daml template",
+    "expose a typed JSON API surface for the frontend stub",
+    "generate a scaffold with the Daml package, frontend stub and README"
+  ],
+  "permissions": [
+    "ledger-read",
+    "ledger-write"
+  ],
+  "maintainer": {
+    "name": "Michael Lip",
+    "url": "https://github.com/theluckystrike",
+    "contact": "lipmichal@gmail.com"
+  },
+  "description": "Minimal tokenized deposit component for DPM. It ships one Daml template, a Ledger API adapter and a frontend stub, so a reviewer can read every line in a few minutes and a team can copy it as a starting point. Status: reference entry. The OCI artifact is not published yet, and the sha256 covers the component source bundle in this repository, not a registry image.",
+  "examples": [
+    "examples/create-deposit.json"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "issuer": "Issuer::1220abcd",
+  "owner": "Alice::1220ef01",
+  "instrument": "USD-CASH",
+  "amount": "1000.00"
+}
